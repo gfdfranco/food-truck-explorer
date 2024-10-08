@@ -3,6 +3,7 @@ defmodule BackendProjectWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug BackendProjectWeb.Plugs.SetCurrentUser
   end
 
   scope "/api" do
