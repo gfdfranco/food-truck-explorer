@@ -1,0 +1,23 @@
+# Root .gitignore
+
+# Ignore .env files globally
+**/.env
+
+# Ignore common OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Ignore log files
+*.log
+
+# Ignore node_modules in case you have a frontend
+**/node_modules/
+
+# Ignore Elixir and Phoenix specific files
+/_build/
+/deps/
+/*.ez
+erl_crash.dump
+*.beam
