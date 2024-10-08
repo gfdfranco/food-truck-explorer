@@ -15,16 +15,32 @@ Food Truck Explorer is a web application designed to help users discover and man
 - Frontend: Next.js (React)
 - Database: PostgreSQL
 - Containerization: Docker and Docker Compose
+- CI/CD: GitHub Actions (for GraphQL API)
 
 ## Project Structure
 ```
 food-truck-explorer/
 ├── backend/           # Phoenix GraphQL API
 ├── frontend/          # Next.js web application
+├── .github/
+│   └── workflows/     # GitHub Actions workflow files
 └── README.md          # This file
 ```
 
 For specific setup and configuration instructions, please refer to the README files in the `backend/` and `frontend/` directories.
+
+## Continuous Integration
+
+This project uses GitHub Actions for continuous integration, specifically focused on the GraphQL API. The workflow configurations can be found in the `.github/workflows` directory. These workflows automate the process of testing and building the backend API whenever changes are pushed to the repository.
+
+The CI process for the GraphQL API includes:
+- Running tests
+- Linting the Elixir code
+- Building the Phoenix application
+
+To view the status of the CI workflows for the GraphQL API, check the "Actions" tab in the GitHub repository.
+
+Note: The frontend Next.js application is not currently included in the CI process. This may be added in future iterations of the project.
 
 ## Thoughts
 
