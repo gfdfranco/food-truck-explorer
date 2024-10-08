@@ -1,0 +1,52 @@
+# Version of docker-compose
+version: '3'
+
+# Containers we are going to run
+services:
+  # Backend container
+  backend:
+    # The build parameters for this container.
+    build: .
+    user: root
+    network_mode: "host"
+    environment:
+      # Production variables
+      ENV_DEV: "false"
+      # Variables to connect to our Postgres server.
+      PGUSER: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: ${POSTGRES_DB}
+      PGPORT: ${POSTGRES_PORT}
+      PGHOST: ${POSTGRES_HOST}
+      # phoenix deployment variables.
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DATABASE_URL: ${DATABASE_URL}
+      PHX_HOST: ${PHX_HOST}
+      #SSL certificates
+      SSL_CERT_PATH: ${SSL_CERT_PATH}
+      SSL_KEY_PATH: ${SSL_KEY_PATH}
+      
+    volumes:
+      - ./backend_project:/home/gfdfranco/workspace/backend_project 
+    working_dir: /home/gfdfranco/workspace/backend_project
+    depends_on:
+      # The DB container needs to be started before we start this container.
+      - db
+
+  db:
+    image: postgres:11
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+volumes:
+  pgdata:
