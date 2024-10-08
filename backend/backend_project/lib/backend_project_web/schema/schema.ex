@@ -1,7 +1,18 @@
 defmodule BackendProjectWeb.Schema do
   use Absinthe.Schema
+  #Types
+  import_types BackendProjectWeb.Schema.Context.Accounts.Types
+
+  #Queries
+  import_types BackendProjectWeb.Schema.Context.Accounts.Queries
+
+  #Mutations
+  import_types BackendProjectWeb.Schema.Context.Accounts.Mutations
 
   query do
+    import_fields :account_queries
+
+    # Health Check
     @desc """
     Health check query to verify the service is operational.
     This query provides information about the current status of the service, including its operational status, version, and current timestamp.
@@ -33,6 +44,10 @@ defmodule BackendProjectWeb.Schema do
     field :health_check, :health_status do
       resolve(&health_check_resolver/3)
     end
+  end
+
+  mutation do
+    import_fields :account_mutations
   end
 
   @desc """
