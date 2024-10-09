@@ -350,4 +350,23 @@ defmodule BackendProject.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  @doc """
+  Updates the inserted_at field of a UserToken record.
+
+  ## Examples
+
+      iex> update_token_inserted_at("validtoken", ~U[2024-05-01T00:00:00Z])
+      {:ok, %UserToken{}}
+
+      iex> update_token_inserted_at("invalidtoken", ~U[2024-05-01T00:00:00Z])
+      {:error, %Ecto.Changeset{}}
+  """
+  def update_token_inserted_at(token, future_date) do
+    record = Repo.get_by(UserToken, token: token)
+
+    record
+    |> Ecto.Changeset.change(%{inserted_at: future_date})
+    |> Repo.update()
+  end
 end
