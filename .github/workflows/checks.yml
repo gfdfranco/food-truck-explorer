@@ -24,21 +24,21 @@ jobs:
 
       - name: Install dependencies
         run: |
-          docker compose run --rm backend sh -c "\
+          cd backend && docker compose run --rm backend sh -c "\ 
             mix local.hex --force && \
             mix local.rebar --force && \
             mix deps.get --force"
 
       - name: Compile
         run: |
-          docker compose run --rm backend sh -c "\
+          cd backend && docker compose run --rm backend sh -c "\
             mix local.hex --force && \        
             mix local.rebar --force && \
             mix compile --force"
 
       - name: Run tests
         run: |
-          docker compose run --rm backend sh -c "\
+          cd backend && docker compose run --rm backend sh -c "\
             mix local.hex --force && \
             mix local.rebar --force && \
             mix test"
