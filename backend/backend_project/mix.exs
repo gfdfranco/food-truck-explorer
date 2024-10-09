@@ -50,6 +50,7 @@ defmodule BackendProject.MixProject do
       {:absinthe, "~> 1.6.1"},
       {:absinthe_plug, "~> 1.5.8"},
       {:absinthe_phoenix, "~> 2.0.1"},
+      {:csv, "~> 2.4"},
     ]
   end
 
