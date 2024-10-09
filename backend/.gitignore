@@ -1,0 +1,28 @@
+# Backend .gitignore
+
+# Ignore .env files
+.env
+
+# Ignore Elixir-specific files
+/_build/
+/cover/
+/deps/
+/doc/
+/.fetch
+erl_crash.dump
+*.ez
+backend-*.tar
+/priv/static/
+
+# Ignore Phoenix-specific files
+/assets/node_modules/
+/assets/static/
+/config/*.secret.exs
+/priv/cert/
+
+# Ignore database files
+*.db
+*.sqlite3
+
+# Ignore any local configuration
+config/*.secret.exs
