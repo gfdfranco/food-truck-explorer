@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          path: backend/backend_project
+          path: backend
 
       - name: Install dependencies
         run: |
