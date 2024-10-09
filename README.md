@@ -9,6 +9,12 @@ Food Truck Explorer is a GraphQL API designed to help users discover and manage 
 - Save favorite food trucks
 - GraphQL API for flexible data querying
 
+Demo video to see Food Truck Explorer in action:
+
+[![Food Truck Explorer Demo](https://img.youtube.com/vi/QQSSC4o0-2Y/0.jpg)](https://www.youtube.com/watch?v=QQSSC4o0-2Y "Food Truck Explorer Demo")
+
+This video provides an overview of the main features and functionality of our Food Truck Explorer application.
+
 ## Tech Stack
 - Backend: Phoenix (Elixir) with GraphQL (Absinthe)
 - Database: PostgreSQL
