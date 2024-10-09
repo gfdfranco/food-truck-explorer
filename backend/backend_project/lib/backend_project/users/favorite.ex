@@ -4,16 +4,17 @@ defmodule BackendProject.Users.Favorite do
 
   schema "favorites" do
 
-    field :user_id, :id
-    field :food_truck_id, :id
+    belongs_to :user, BackendProject.Users.User
+    belongs_to :food_truck, BackendProject.FoodTrucks.Permit, foreign_key: :food_truck_id
 
-    timestamps(type: :utc_datetime)
+    timestamps()
   end
 
   @doc false
   def changeset(favorite, attrs) do
     favorite
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:user_id, :food_truck_id])
+    |> validate_required([:user_id, :food_truck_id])
+    |> unique_constraint([:user_id, :food_truck_id])
   end
 end

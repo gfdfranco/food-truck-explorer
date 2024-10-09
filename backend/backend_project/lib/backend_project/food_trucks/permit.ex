@@ -13,6 +13,9 @@ defmodule BackendProject.FoodTrucks.Permit do
     field :latitude, :decimal
     field :longitude, :decimal
 
+    has_many :favorites, BackendProject.Users.Favorite
+    has_many :users, through: [:favorites, :user]
+
     timestamps(type: :utc_datetime)
   end
 

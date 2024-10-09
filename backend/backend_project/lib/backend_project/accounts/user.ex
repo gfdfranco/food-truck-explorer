@@ -9,6 +9,9 @@ defmodule BackendProject.Accounts.User do
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
 
+    # Relationship with favorites
+    has_many :favorites, BackendProject.Users.Favorite
+    has_many :favorite_places, through: [:favorites, :food_truck]
     timestamps(type: :utc_datetime)
   end
 
