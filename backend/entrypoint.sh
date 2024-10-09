@@ -34,11 +34,13 @@ if [ "$ENV_DEV" = "true" ]; then
     fi
 
     mix ecto.migrate
+    mix run priv/repo/seeds.exs
     mix phx.server
 else
     # If ENV_DEV is false
     mix deps.get --only prod
     MIX_ENV=prod mix compile
     MIX_ENV=prod mix ecto.migrate
+    MIX_ENV=prod mix run priv/repo/seeds.exs
     PORT=4000 MIX_ENV=prod mix phx.server
 fi

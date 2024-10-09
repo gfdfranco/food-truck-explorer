@@ -9,7 +9,8 @@ import Config
 
 config :backend_project,
   ecto_repos: [BackendProject.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  csv_file_path: Path.expand("priv/csv/Mobile_Food_Facility_Permit.csv")
 
 # Configures the endpoint
 config :backend_project, BackendProjectWeb.Endpoint,
