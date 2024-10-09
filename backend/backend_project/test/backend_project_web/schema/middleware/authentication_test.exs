@@ -11,15 +11,17 @@ defmodule BackendProjectWeb.Schema.Middleware.AuthenticationTest do
       user = user_fixture()
       token = Accounts.generate_user_session_token(user)
       encoded_token = Base.url_encode64(token, padding: false)
-      %{conn: build_conn(), user: user, token: token, encoded_token: encoded_token}
+      %{user: user, token: token, encoded_token: encoded_token}
     end
 
-    test "sets token in context when valid token is provided", %{
+    test "sets token and current_user in context when valid token is provided", %{
+      user: user,
       encoded_token: encoded_token
     } do
       resolution = %Absinthe.Resolution{context: %{token: encoded_token}}
       result = Authenticate.call(resolution, %{})
-      assert result.context == %{token: encoded_token}
+      assert result.context.token == encoded_token
+      assert result.context.current_user.id == user.id
     end
 
     test "does not set token in context when no token is provided" do

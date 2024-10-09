@@ -84,5 +84,38 @@ defmodule BackendProjectWeb.Schema.Context.Accounts.Mutations do
       resolve &Resolvers.Accounts.sign_out/3
     end
 
+    @desc """
+    Add a favorite food truck for the current user.
+    This mutation allows the currently authenticated user to add a food truck to their list of favorites.
+
+    ## Mutation
+    ```graphql
+    mutation AddFavoriteFoodTruck($foodTruckId: ID!) {
+      addFavoriteFoodTruck(foodTruckId: $foodTruckId) {
+        id
+        email
+        favoritePlaces {
+          id
+          applicant
+        }
+      }
+    }
+    ```
+    ## Variables
+    ```json
+    {
+      "foodTruckId": "1"
+    }
+    ```
+    """
+    field :add_favorite_food_truck, :user do
+      arg :food_truck_id, non_null(:id)
+
+      # Ensure the user is authenticated before proceeding
+      middleware Middleware.Authenticate
+
+      resolve &Resolvers.Accounts.add_favorite_food_truck/3
+    end
+
   end
 end

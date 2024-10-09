@@ -2,7 +2,12 @@ defmodule BackendProjectWeb.Resolvers.Accounts do
   alias BackendProject.Accounts
   alias BackendProjectWeb.UserAuth
   alias BackendProject.Accounts.User
+  alias BackendProject.Users
+  alias BackendProject.FoodTrucks.Permit
+  alias BackendProject.Users.Favorite
 
+  import Ecto.Query
+  alias BackendProject.Repo
   alias BackendProjectWeb.Schema.ChangesetErrors
 
   def me(_, _, %{context: %{token: token}}) do
@@ -59,5 +64,27 @@ defmodule BackendProjectWeb.Resolvers.Accounts do
     {:ok, token}
   end
 
+  def add_favorite_food_truck(_parent, %{food_truck_id: food_truck_id}, %{context: %{current_user: user}}) do
+    with {id, _} <- Integer.parse(food_truck_id),
+         %Permit{} = food_truck <- Repo.get(Permit, id) do
 
+      favorite_changeset = Ecto.build_assoc(user, :favorites, food_truck_id: food_truck.id)
+
+      case Repo.insert(favorite_changeset) do
+        {:ok, _favorite} ->
+          {:ok, user}
+        {:error, changeset} ->
+          {:error, "Could not add favorite food truck: #{inspect(changeset.errors)}"}
+      end
+    else
+      :error ->
+        {:error, "Invalid food truck ID"}
+      nil ->
+        {:error, "Food truck not found"}
+    end
+  end
+
+  def add_favorite_food_truck(_, _, _) do
+    {:error, "Authentication required"}
+  end
 end

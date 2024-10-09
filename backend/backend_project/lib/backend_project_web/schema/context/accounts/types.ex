@@ -4,6 +4,10 @@ defmodule BackendProjectWeb.Schema.Context.Accounts.Types do
   """
 
   use Absinthe.Schema.Notation
+  alias BackendProject.Repo
+  import Ecto.Query
+
+  import BackendProjectWeb.Schema.Context.FoodTrucks.Types
 
   @desc """
   Object representing a user session.
@@ -37,21 +41,51 @@ defmodule BackendProjectWeb.Schema.Context.Accounts.Types do
   - id: The unique identifier of the user
   - email: The user's email address
   - role: The user's role in the system
+  - favorite_places: A list of the user's favorite food truck places
   - inserted_at: The timestamp when the user was created
 
   ## Example
   ```graphql
-    user {
-      id
-      email
-      role
-      insertedAt
-    }
+      user {
+        id
+        email
+        favoritePlaces {
+          id
+          applicant
+          facilityType
+          locationDescription
+          address
+          status
+          foodItems
+          latitude
+          longitude
+        }
+      }
   ```
+
   """
   object :user do
-    field :id, :id
-    field :email, :string
-    field :inserted_at, :string
+    field :id, non_null(:id)
+    field :email, non_null(:string)
+    field :inserted_at, non_null(:string)
+
+    field :favorite_places, list_of(:food_truck) do
+      resolve fn user, _, _ ->
+        query = from p in BackendProject.FoodTrucks.Permit,
+                join: f in BackendProject.Users.Favorite,
+                on: f.food_truck_id == p.id,
+                where: f.user_id == ^user.id,
+                order_by: [asc: p.inserted_at],
+                select: p
+
+        # Add debugging
+        IO.inspect(query, label: "Generated Query")
+
+        result = Repo.all(query)
+        IO.inspect(result, label: "Query Result")
+
+        {:ok, result}
+      end
+    end
   end
 end
