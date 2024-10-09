@@ -1,0 +1,44 @@
+name: Checks
+
+on: [push]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-20.04
+
+    env:
+      POSTGRES_USER: "tester"
+      POSTGRES_PASSWORD: "passwordForTesting"
+      POSTGRES_DB: "db_test"
+      POSTGRES_PORT: "5432"
+      POSTGRES_HOST: "db"
+      PGADMIN_DEFAULT_EMAIL: "tester@example.com"
+      PGADMIN_DEFAULT_PASSWORD: "passwordForTesting"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: backend/backend_project
+
+      - name: Install dependencies
+        run: |
+          docker compose run --rm backend sh -c "\
+            mix local.hex --force && \
+            mix local.rebar --force && \
+            mix deps.get --force"
+
+      - name: Compile
+        run: |
+          docker compose run --rm backend sh -c "\
+            mix local.hex --force && \        
+            mix local.rebar --force && \
+            mix compile --force"
+
+      - name: Run tests
+        run: |
+          docker compose run --rm backend sh -c "\
+            mix local.hex --force && \
+            mix local.rebar --force && \
+            mix test"
