@@ -2,15 +2,18 @@ defmodule BackendProjectWeb.Schema do
   use Absinthe.Schema
   #Types
   import_types BackendProjectWeb.Schema.Context.Accounts.Types
+  import_types BackendProjectWeb.Schema.Context.FoodTrucks.Types
 
   #Queries
   import_types BackendProjectWeb.Schema.Context.Accounts.Queries
+  import_types BackendProjectWeb.Schema.Context.FoodTrucks.Queries
 
   #Mutations
   import_types BackendProjectWeb.Schema.Context.Accounts.Mutations
 
   query do
     import_fields :account_queries
+    import_fields :food_truck_queries
 
     # Health Check
     @desc """
