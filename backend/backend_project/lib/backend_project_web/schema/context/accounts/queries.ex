@@ -19,6 +19,17 @@ defmodule BackendProjectWeb.Schema.Context.Accounts.Queries do
         id
         email
         insertedAt
+        favoritePlaces {
+          id
+          applicant
+          facilityType
+          locationDescription
+          address
+          status
+          foodItems
+          latitude
+          longitude
+        }
       }
     }
     ```
