@@ -1,59 +1,76 @@
-# Food Truck Explorer
+# Food Truck Explorer Backend
 
 ## Project Overview
-Food Truck Explorer is a web application designed to help users discover and manage their favorite food trucks in San Francisco. The project uses data from San Francisco's open dataset on food trucks to provide users with an interactive and personalized experience.
+Food Truck Explorer is a GraphQL API designed to help users discover and manage their favorite food trucks in San Francisco. The project uses data from San Francisco's open dataset on food trucks to provide users with an interactive and personalized experience. This backend can be used to power various client applications, including web and mobile interfaces.
 
 ## Features
-- User authentication (signup and login)
+- User authentication (signup, login and signout)
 - Browse food trucks in San Francisco
 - Save favorite food trucks
-- Create a "Want to Visit" list
-- See location on map of food truck locations
+- GraphQL API for flexible data querying
 
 ## Tech Stack
-- Backend: Phoenix (Elixir) with GraphQL
-- Frontend: Next.js (React)
+- Backend: Phoenix (Elixir) with GraphQL (Absinthe)
 - Database: PostgreSQL
 - Containerization: Docker and Docker Compose
-- CI/CD: GitHub Actions (for GraphQL API)
+- CI/CD: GitHub Actions
 
 ## Project Structure
 ```
 food-truck-explorer/
-├── backend/           # Phoenix GraphQL API
-├── frontend/          # Next.js web application
-├── .github/
-│   └── workflows/     # GitHub Actions workflow files
-└── README.md          # This file
+├── backend/
+│   ├── backend_project/     # Main Phoenix application
+│   │   ├── config/          # Configuration files
+│   │   ├── lib/             # Application code
+│   │   ├── priv/            # Database migrations and seeds
+│   │   ├── test/            # Test files
+│   │   ├── mix.exs          # Project dependencies and configuration
+│   │   └── mix.lock         # Lock file for dependencies
+│   ├── docker-compose.yml           # Docker Compose for local development
+│   ├── docker-compose-deploy.yml    # Docker Compose for production deployment
+│   ├── Dockerfile                   # Docker configuration
+│   └── entrypoint.sh                # Docker entrypoint script
+└── README.md                # This file
 ```
 
-For specific setup and configuration instructions, please refer to the README files in the `backend/` and `frontend/` directories.
+## Getting Started
+
+To set up and run the Food Truck Explorer backend:
+
+1. Ensure you have Docker and Docker Compose installed on your system.
+2. Clone this repository.
+3. Navigate to the `backend` directory.
+4. Create a `.env` file by copying the sample:
+   ```
+   cp .env.sample .env
+   ```
+   Open the `.env` file and configure the environment variables according to your setup. Make sure to set appropriate values for database credentials, API keys, and any other required variables.
+5. Run `docker-compose up --build` to start the development environment.
+
+For more detailed setup instructions, refer to the following README files:
+- [Backend Setup README](backend/README.md)
+- [Phoenix Project README](backend/backend_project/README.md)
+
+## GraphQL API
+
+The GraphQL API provides a flexible interface for client applications to interact with the Food Truck Explorer backend. It allows for efficient querying of food truck data, user authentication, and management of favorite food trucks.
+
+Key features of the API include:
+- User authentication and authorization
+- Querying food truck data with various filters
+- Saving and retrieving user favorites
+- Health check endpoint for monitoring
+
+To explore the API, you can use the GraphiQL interface available in the development environment at `http://localhost:4000/api/graphiql` (adjust the port if necessary).
 
 ## Continuous Integration
 
-This project uses GitHub Actions for continuous integration, specifically focused on the GraphQL API. The workflow configurations can be found in the `.github/workflows` directory. These workflows automate the process of testing and building the backend API whenever changes are pushed to the repository.
+This project uses GitHub Actions for continuous integration. The workflow configurations can be found in the `.github/workflows` directory (not visible in the provided structure, but assumed to exist). These workflows automate the process of testing and building the GraphQL API whenever changes are pushed to the repository.
 
-The CI process for the GraphQL API includes:
-- Running tests
-- Linting the Elixir code
-- Building the Phoenix application
+## Why GraphQL?
 
-To view the status of the CI workflows for the GraphQL API, check the "Actions" tab in the GitHub repository.
+I chose GraphQL over a traditional RESTful API for several reasons:
 
-Note: The frontend Next.js application is not currently included in the CI process. This may be added in future iterations of the project.
-
-## Thoughts
-
-### Why Next.js over LiveView
-While Phoenix LiveView is an excellent choice for real-time applications with its server-side rendering capabilities, I chose Next.js for this project for several reasons:
-
-1. Familiarity: I have more experience with React and Next.js, which allow me to develop faster.
-2. Rich Ecosystem: The React ecosystem offers a vast array of libraries and tools that I can utilize to enhance the application.
-3. Static Generation: Next.js's ability to generate static pages can significantly improve performance for parts of the application that don't require real-time updates.
-
-### Why GraphQL over RESTful API
-Choosing GraphQL over a traditional RESTful API was driven by several factors:
-
-1. Flexible Data Fetching: GraphQL allows the frontend to request exactly the data it needs, reducing over-fetching and under-fetching of data.
+1. Flexible Data Fetching: GraphQL allows clients to request exactly the data they need, reducing over-fetching and under-fetching of data.
 2. Strong Typing: GraphQL's type system provides clear contracts between the frontend and backend, reducing errors and improving development speed.
 3. Single Endpoint: GraphQL's single endpoint approach simplifies API management and versioning compared to multiple REST endpoints.
