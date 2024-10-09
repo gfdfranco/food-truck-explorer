@@ -1,15 +1,27 @@
 # BackendProject
 
-To start your Phoenix server:
+## GraphQL API and Documentation
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+This project uses GraphQL for its API. You can explore the API and its documentation using GraphiQL, an in-browser IDE for GraphQL.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+To access GraphiQL and the API documentation:
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+1. Ensure your server is running.
+2. Visit [`localhost:4000/api/graphiql`](http://localhost:4000/api/graphiql) in your browser.
+3. In the GraphiQL interface, you can:
+   - Write and execute queries and mutations in the left pane.
+   - See the results in the right pane.
+   - Explore the documentation by clicking on the "Docs" tab in the upper right corner.
 
-## Learn more
+The "Docs" section provides detailed information about all available queries, mutations, and types in your GraphQL schema. Here you can find:
+
+- Descriptions of each query and mutation
+- Required and optional arguments
+- Return types and their structures
+- Any custom types defined in your schema
+
+
+## Learn More
 
   * Official website: https://www.phoenixframework.org/
   * Guides: https://hexdocs.pm/phoenix/overview.html
